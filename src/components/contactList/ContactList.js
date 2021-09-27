@@ -8,7 +8,7 @@ import s from "./ContactList.module.css";
 import ContactListItem from '../contactListItem/ContactListItem';
 
 const ContactList = ({ contacts, onDeleteContact }) => {
-    console.log(contacts)
+    
     return (
         <ul className={s.contactList}>
             {contacts.map(({ id, name, number }) => (
@@ -34,10 +34,12 @@ ContactList.propTypes = {
       contact.name.toLowerCase().includes(normalizedFilter),
     );
 
-     if (visibleContacts.length === 0) {
+    if (filter !== '') {
+      if (allContacts.length !==0 && visibleContacts.length === 0 ) {
      toast.error("No contact found. Enter the correct request!")
     } else {
       toast.success(` ${visibleContacts.length} contacts found!`)
+    }
     }
 
     return visibleContacts;
