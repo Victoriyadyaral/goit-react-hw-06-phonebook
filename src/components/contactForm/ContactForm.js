@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import shortid from 'shortid';
 import { ImCheckmark } from "react-icons/im";
+import { connect } from 'react-redux';
+import {  toast } from 'react-toastify';
+import phonebookActions from '../../redux/actions';
 import s from "./ContactForm.module.css";
 
-export default function ContactForm({onSubmit}) {
+function ContactForm({onSubmit, contacts}) {
   
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -31,7 +34,7 @@ export default function ContactForm({onSubmit}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit({ name, number, id });
+    onSubmit({ name, number, id }, contacts);
     reset();
     };
 
@@ -83,3 +86,19 @@ export default function ContactForm({onSubmit}) {
         </form>
         )
 }
+
+const mapStateToProps = state => ({
+  contacts: state.phonebook.contacts, 
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (contact, contacts) => {
+    if (contacts.find(c => c.name === contact.name)) {
+      toast.warn(`${contact.name} is already in your phonebook!`);
+      return;
+      }
+    dispatch(phonebookActions.addContact(contact))
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

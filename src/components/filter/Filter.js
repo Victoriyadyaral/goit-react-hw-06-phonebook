@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import phonebookActions from '../../redux/actions';
 import s from "./Filter.module.css";
 
 const Filter = ({ value, onChange, onBlur }) => (
@@ -24,4 +26,13 @@ Filter.propTypes = {
   onChange: PropTypes.func.isRequired,
 }
 
-export default Filter;
+const mapStateToProps = state => ({
+  value: state.phonebook.filter, 
+});
+
+const mapDispatchToProps = dispatch => ({
+  onChange: e => dispatch(phonebookActions.changeFilter(e.target.value)),
+  onBlur: () => null,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
