@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import phonebookActions from '../../redux/actions';
 import s from "./Filter.module.css";
 
-const Filter = ({ value, onChange, onBlur }) => (
+const Filter = ({ value, onChange}) => (
   <div className = {s.filter}>
   <label className={s.label}>
       Find contacts by name
@@ -13,7 +13,6 @@ const Filter = ({ value, onChange, onBlur }) => (
         type="text"
         value={value}
         onChange={onChange}
-        onBlur={onBlur}
         className={s.input}
         />
      </div>
@@ -32,7 +31,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onChange: e => dispatch(phonebookActions.changeFilter(e.target.value)),
-  onBlur: () => null,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
